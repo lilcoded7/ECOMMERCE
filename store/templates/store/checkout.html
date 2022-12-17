@@ -1,0 +1,56 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{static 'css/main.css' %}">
+
+<form method="POST">
+
+    <input type="text" placeholder="name">
+    <input class="input-form" type="text" placeholder="email">
+
+    <div class="ship-info">Shipping Information</div>
+
+    <div class="ship-container">
+        <input type="text" placeholder="Address">
+        <input class="input-form" type="text" placeholder="City">
+
+        <input type="text" placeholder="State">
+        <input class="input-form" type="text" placeholder="City">
+
+        <input type="text" placeholder="Zip code">
+        <button class="continue">Continue</button>
+    </div>
+</form><br><br>
+
+
+
+
+<div class="col-lg-12" style="display: inline-block;">
+    <div class="box-element">
+        <a href="{% url 'cart' %}" class="btn btn-outline-dark">&#x2190; Back to Cart</a>
+        <br>
+        <br>
+
+    
+    <div style="margin: 15px;">Order Summary </div> 
+    {% for item in items %}
+    <div class="cart-row">
+        <img style="width: 6%; display: inline-block;" src="{{item.product.imageURL}}" alt="">
+        <h5 style="display: inline-block; margin-left: 25px;">{{item.product.name}}</h5>
+        <h5 style="display: inline-block; margin-left: 15px;">${{item.product.price}}</h5>
+        <h5 style="display: inline-block; margin-left: 15px;">x{{item.quantity}}</h5>
+        <h5 style="display: block;">item:{{order.get_cart_items}}</h5>
+        <h5 style="display: block;">Total:${{order.get_cart_tatal|floatformat:2}}</h5>    
+    </div>       
+    {% endfor %}
+   
+</div>
+<br><br>
+<div class="box-element hidden" id="payment-info">
+    <small>Paypal Options</small>
+
+</div>
+
+    
+
+{% endblock content %}
