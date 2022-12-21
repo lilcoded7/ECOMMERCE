@@ -47,4 +47,4 @@ def checkout(request):
 
 
 def updateItem(request):
-    return JsonResponse('item was added', safe=False)
+    return JsonResponse('Item was added', safe=False)
