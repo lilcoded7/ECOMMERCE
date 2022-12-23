@@ -45,8 +45,8 @@
                 <div class="cartsrow"> {{item.product.name}}</div>
                 <div class="cartsrow">${{item.product.price}}</div>
                 <div class="cartsrow">{{item.quantity}}</div>
-                <img class="arrow-imge" src="{% static 'images/arrow-top.jpeg' %}" alt="">
-                <img class="arrow-imge" src="{% static 'images/arrow-down.jpeg' %}" alt="">
+                <img data-product ="{{item.product.id}}" data-action="add" class="arrow-imge update-cart" src="{% static 'images/arrow-top.jpeg' %}" alt="">
+                <img data-product ="{{item.product.id}}" data-action="remove" class="arrow-imge update-cart" src="{% static 'images/arrow-down.jpeg' %}" alt="">
                 <div class="total">${{item.get_total|floatformat:2}}</div>
             </div>
             {% endfor %}

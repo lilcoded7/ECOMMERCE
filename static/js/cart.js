@@ -1,5 +1,6 @@
 let updateBtns = document.getElementsByClassName('update-cart') 
 
+
 for(let i = 0; i < updateBtns.length; i++){
     updateBtns[i].addEventListener('click', function(){
         let productId = this.dataset.product
@@ -13,6 +14,8 @@ for(let i = 0; i < updateBtns.length; i++){
         }else{
             updateUserOrder(productId, action)
         }
+        prompt(productId)
+        
 
     })
 }
@@ -20,7 +23,7 @@ for(let i = 0; i < updateBtns.length; i++){
 function updateUserOrder(productId, action){
     console.log('User is logged in, sending data...')
 
-    let url = '/update-item'
+    let url = 'update-item'
 
     fetch(url, {
         method: 'POST',
@@ -29,9 +32,17 @@ function updateUserOrder(productId, action){
             'X-CSRFToken' : csrftoken,
         },
         body: JSON.stringify({'productId': productId, 'action': action})
+        
+    })
+    
+
+    .then((response) =>{
+        return response.json()
     })
 
-    .then((response) => response.json())
+    .then((data) =>{
+        console.log('data: ', data,)
+        location.reload()
 
-    .then((data) => console.log('data:', data))
+    })
 }
