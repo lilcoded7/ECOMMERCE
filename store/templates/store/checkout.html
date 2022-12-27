@@ -5,25 +5,27 @@
 
 
 <div id="form-wrapper">
-    <form id="form" method="POST">
+    <form id="form" >
         <div id="user-info">
-            <input type="text" placeholder="name">
-            <input class="input-form" type="text" placeholder="email">
+            <input type="text" name="useraname" placeholder="name">
+            <input class="input-form" name="email" type="text" placeholder="email">
         </div>
        
-    
-        <div class="ship-info">Shipping Information</div>
-    
         <div class="ship-container" id="shipping-info">
-            <input type="text" placeholder="Address">
-            <input class="input-form" type="text" placeholder="Country">
+
+            <div class="ship-info">Shipping Information</div>
     
-            <input type="text" placeholder="State">
-            <input class="input-form" type="text" placeholder="City">
+            <input type="text" name="address" placeholder="Address">
+            <input class="input-form" name="country" type="text" placeholder="Country">
     
-            <input type="text" placeholder="Zip code">
-            <button id="form-button" class="continue">Continue</button>
+            <input type="text" name="state" placeholder="State">
+            <input class="input-form" name="city" type="text" placeholder="City">
+            <input type="text" name="zipcode" placeholder="Zip code">
         </div>
+
+        
+        <button id="form-button" class="continue">Continue</button>
+    
     </form>
 
 </div>
@@ -47,7 +49,7 @@
         <h5 style="display: inline-block; margin-left: 15px;">${{item.product.price}}</h5>
         <h5 style="display: inline-block; margin-left: 15px;">x{{item.quantity}}</h5>
         <h5 style="display: block;">item:{{order.get_cart_items}}</h5>
-        <h5 style="display: block;">Total:${{order.get_cart_tatal|floatformat:2}}</h5>    
+        <h5 name="total" style="display: block;">Total:${{order.get_cart_tatal|floatformat:2}}</h5>    
     </div>       
     {% endfor %}
    
@@ -61,93 +63,131 @@
 
 <br><br>
 
+
+
 <script>
     let shipping = "{{order.shipping}}"
-    let total    = '{{order.get_cart_total|floatformat:2}}'
 
-    // if (shipping == 'True'){
-    //     document.getElementById('shipping-info').innerHTML = ''
-    // }
+    let total    = '{{order.get_cart_total}}'
 
-    // if (user != 'AnonymousUser'){
-    //     document.getElementById('user-info').innerHTML = ''
-    // }
+    if (shipping == 'True'){
+        document.getElementById('shipping-info').innerHTML = ''
+    }
 
-    // // if (shipping == 'False' && user != 'AnonymousUser'){
-    // //     // Hide entire form if user is logged in and shipping is false
-    // //     document.getElementById('form-wrapper').classList.add('hidden');
-    // //     // show payment if logged in user wants to buy an item that does not required shipping 
-    // //     document.getElementsById('payment-info').classList.remove('hidden')
-    // // }
+    if (user != 'AnonymousUser'){  document.getElementById('user-info').innerHTML = ''
+    }
 
-    // let form = document.getElementById('form')
+    if (shipping == 'True' && user != 'AnonymousUser'){
+        // Hide entire form if user is logged in and shipping is false
+        document.getElementById('form-wrapper').classList.add('hidden');
+        // show payment if logged in user wants to buy an item that does not required shipping 
+        document.getElementsById('payment-info').classList.remove('hidden')
+    }
 
-    // form.addEventListener('submit', function(e){
-    //     e.preventDefault()
-    //     console.log('form submitted...')
-    //     document.getElementById('form-button').classList.add('hidden')
-    //     document.getElementById('payment-info').classList.remove('hidden')
 
-    //     document.getElementById('make-payment').addEventListener('click', function(e){
-    //         submitFormData()
-    //     })
 
-    //     function submitFormData(){
-    //         console.log('Payment button clicked')
+    let form = document.getElementById('form')
+   
 
-    //         let userFormData = {
-    //             'name' : null, 
-    //             'email' : null, 
-    //             'total' : total 
-    //         }
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('form submitted...')
+        document.getElementById('form-button').classList.add('hidden')
+        document.getElementById('payment-info').classList.remove('hidden')
+    })
 
-    //         let shippingInfo = {
-    //             'address' : null, 
-    //             'country' : null,
-    //             'city'    : null, 
-    //             'state'   : null, 
-    //             'zipcode' : null, 
-    //         }
+    document.getElementById('make-payment').addEventListener('click', function(e){
+        submitFormData()
+    })
 
-    //         if(shipping != 'False'){
-    //             shippingInfo.address = form.address.value
-    //             shippingInfo.city = form.city.value
-    //             shippingInfo.state = form.state.value
-    //             shippingInfo.zipcode = form.address.value     
-    //         }
-             
 
-    //         if(user == 'AnonymousUser'){
-    //             userFormData.name = form.name.value
-    //             userFormData.email = form.email.value
-    //         }
+    function submitFormData(){
+        console.log('Payment button clicked')
+
+        let userFormData = {
+            'name' : null, 
+            'email' : null, 
+            'total' : total, 
+        }
+
+        let shippingInfo = {
+            'address' : null, 
+            'country' : null,
+            'city'    : null, 
+            'state'   : null, 
+            'zipcode' : null, 
+        }
+
+        if(shipping == 'False'){
+            shippingInfo.address = form.address.value
+            shippingInfo.country = form.country.value
+            shippingInfo.city    = form.city.value
+            shippingInfo.state   = form.state.value
+            shippingInfo.zipcode = form.zipcode.value   
+            console.log(shippingInfo.country) 
             
-    //         let url = '/process-order'
+        }
+            
 
-    //         fetch(url, {
-    //             method : 'POST',
-    //             headers:{
-    //                 'Content-Type' : 'application/json',
-    //                 'X-CSRFToken'  : csrftoken,
-    //             },
+        if(user == 'AnonymousUser'){
+            userFormData.name = form.name.value
+            userFormData.email = form.email.value
+        }
 
-    //             body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}
-    //             )
+        let url = '/process-order/'
+
+        fetch(url, {
+            method : 'POST',
+            headers:{
+                'Content-Type' : 'application/json',
+                'X-CSRFToken'  : csrftoken,
+            },
+
+            body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}
+            )
+
+        })
+
+        .then((reponse) => reponse.json())
+
+        .then((data) => {
+            console.log('Success:', data);
+            alert('Transaction completed');
+            window.location.href= "{% url 'home' %}"
+        })
 
 
-    //         })
-    //         .then((reponse) => reponse.json())
-    //         .then((data) => {
-    //             console.log('Success:', data);
-    //             alert('Transaction completed');
-    //             window.location.href= "{% url 'home' %}"
-    //         })
+
+    }
 
 
-    //     }
-    // })
 
 </script>
-    
 
 {% endblock content %}
+
+
+// // <!-- <script>
+    
+// //    
+
+    
+// //     
+
+// //    
+
+    
+// //        
+
+// //       
+            
+// //            
+// //             
+// //             
+
+// //         }
+// //     })
+
+// </script>
+    
+
