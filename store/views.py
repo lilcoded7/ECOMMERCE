@@ -107,34 +107,37 @@ def processOrder(request):
 
     print('Data:', request.body, '=====================')
 
-    # transaction_id = datetime.datetime.now().timestamp()
-    # print(transaction_id)
-    # data  = json.loads(request.body)
-    # print(data, 'data000000000000000000000000000000000')
+    transaction_id = datetime.datetime.now().timestamp()
+    print(transaction_id)
+    data  = json.loads(request.body)
+    print(data, 'data000000000000000000000000000000000')
 
-    # if request.user.is_authenticated:
-    #     customer = request.user.customer
-    #     order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    #     total   = data['form']['total']
-    #     order.transaction_id = transaction_id
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        total   = float(data['form']['total'])
+        print(total, '===============================')
+        order.transaction_id = transaction_id
 
-    #     if total == order.get_cart_total:
-    #         order.complete = True 
-    #     order.save() 
+        if total == float(order.get_cart_total):
+            order.complete = True 
+        order.save() 
 
-    #     if order.shipping == True:
-    #         shiping_details = ShippingAddress.objects.create(
-    #             customer = customer,
-    #             order    = order,
-    #             address  = data['shipping']['address'],
-    #             city  = data['shipping']['city'],
-    #             state  = data['shipping']['state'],
-    #             zipcode  = data['shipping']['zipcode'],
-    #         )
-    #         shiping_details.save()
-    #     else:
-    #         print('============================Invalide Shipping Details =====================================')
-    # else:
-    #     print('customer is not loged in..')
+        if order.shipping == False:
+            shiping_details = ShippingAddress.objects.create(
+                customer = customer,
+                order    = order,
+                address  = data['shipping']['address'],
+                city  = data['shipping']['city'],
+                state  = data['shipping']['state'],
+                zipcode  = data['shipping']['zipcode'],
+                
+            )
+            shiping_details.save()
+            
+        else:
+            print('============================Invalide Shipping Details =====================================')
+    else:
+        print('customer is not loged in..')
 
     return JsonResponse('payment complete !', safe=False)
