@@ -2,12 +2,19 @@
     background-color: #4f868c !important;
 }
 
+.nabar{
+    background-color: rgb(245, 143, 160) !important;
+}
+
 #cart-icon{
     width: 25px;
     display: inline-block;
     margin-left: 10px;
 }
 
+.update-cart{
+    /* background-color: blue; */
+}
 #cart-total{
     display: inline-block;
     text-align: center;
