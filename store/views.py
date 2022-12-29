@@ -3,7 +3,7 @@ from .models import *
 from django.http import JsonResponse 
 import json 
 import datetime 
-from . utils import cookieCart , cartDate
+from . utils import cookieCart , cartDate, guestOrder
 
 # Create your views here.
 
@@ -96,29 +96,30 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        total   = float(data['form']['total'])
-        print(total, '===============================')
-        order.transaction_id = transaction_id
-
-        if total == float(order.get_cart_total):
-            order.complete = True 
-        order.save() 
-
-        if order.shipping == False:
-            shiping_details = ShippingAddress.objects.create(
-                customer = customer,
-                order    = order,
-                address  = data['shipping']['address'],
-                city  = data['shipping']['city'],
-                state  = data['shipping']['state'],
-                zipcode  = data['shipping']['zipcode'],
-                
-            )
-            shiping_details.save()
-            
-        else:
-            print('============================Invalide Shipping Details =====================================')
     else:
-        print('customer is not loged in..')
+        customer, order = guestOrder(request, data)
+        
+    total   = float(data['form']['total'])
+    print(total, '===============================')
+    order.transaction_id = transaction_id
+
+    if total == float(order.get_cart_total):
+        order.complete = True 
+    order.save()
+    print('hello ======================================================================')
+
+    if order.shipping == True:
+        shiping_details = ShippingAddress.objects.create(
+            customer = customer,
+            order    = order,
+            address  = data['shipping']['address'],
+            city  = data['shipping']['city'],
+            state  = data['shipping']['state'],
+            zipcode  = data['shipping']['zipcode'],
+            
+        )
+    else:
+        print('-------------------Invalide credentials--------------------------')
+
 
     return JsonResponse('payment complete !', safe=False)
