@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from django.http import JsonResponse 
 import json 
 import datetime 
 from . utils import cookieCart , cartDate, guestOrder
+from django.contrib import messages 
+from . import forms 
+from django.conf import settings 
+from .forms import PaymentForm
+
 
 # Create your views here.
 
@@ -81,9 +86,9 @@ def updateItem(request):
 
 
 
-    
+from django.views.decorators.csrf import csrf_exempt 
 
-
+@csrf_exempt
 def processOrder(request):
 
     print('Data:', request.body, '=====================')
@@ -123,3 +128,25 @@ def processOrder(request):
 
 
     return JsonResponse('payment complete !', safe=False)
+
+
+
+
+def makepayment(request):
+    
+    return render(request, 'store/make_payment.html')
+
+
+
+def verify_payment(request, ref):
+    payment  = get_objects_or_400(Payment, ref=ref)
+
+    verified = payment.verifypayment()
+    if verified:
+        return messages.success(request, 'Verification Successful')
+    else:
+        return messages.success(request, 'Verification Failed')
+    return redirect('makepayment')
+
+
+    

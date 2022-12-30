@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -130,3 +131,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+PAYSTACK_SECRETAPI_KEY = 'sk_live_d4039e928f5d4d81fe00acd97652fed8c60325b3'
+PAYSTACK_PUBLICAPI_KEY = 'pk_live_75134698c12c8677a89d6a8820585d8da726b7df'
