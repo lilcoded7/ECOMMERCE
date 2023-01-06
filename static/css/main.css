@@ -32,6 +32,21 @@
     background-color: #fff;
     border-radius: 4px;
     padding: 10px;
+    /* border: 2px solid red; */
+
+}
+
+
+.table{
+    width: 100%;
+    /* border: 2px solid red; */
+}
+
+.cart-row{
+    width: 100%;
+    display: block;
+    /* border: 2px solid green; */
+    align-items: center;
 }
 
 .product{
@@ -47,13 +62,17 @@
 } 
 
 .pro-container{
-    width: 30%;
-    height: 300px;
+    width: 45%;
+    height: 360px;
     border-radius: 5px;
     /* border: 2px solid gray; */
-    margin: 15px;
+    margin-left: 9px;
+    margin-bottom: 30px;
     display: inline-block;
+    
+    /* margin-left: 10%; */
     /* background-color: gray; */
+    /* border: 2px solid red; */
     
 }
 
@@ -69,10 +88,21 @@
     display: block;
 }
 
+.pro-element{
+    display: block;
+
+}
+
 .pro-element-container{
     width: 100%;
     /* border: 1px solid blue; */
     margin-top: 30px;
+    /* border: 2px solid red; */
+}
+
+.View{
+    display: inline-block;
+    /* width: 15%; */
 }
 
 h4{
@@ -89,15 +119,39 @@ h4{
     display: inline-block;
 }
 
+.itemname{
+    display: inline-block;
+    margin-left: 5%;
+}
+
+.itemtotal{
+    display: inline-block;
+    margin-left: 5%;
+}
+
+.cartrowprice{
+    display: inline-block;
+    margin-left: 10%;
+
+}
+
+.itemrowprice{
+    display: inline-block;
+    margin-left: 10%;
+    text-align: left;
+}
+
 .cartrow{
     display: inline-block; 
-    margin-left: 15%;
+    margin-left: 3%;
     /* float: right; */
 
 }
+
+
 .cartsrow{
     display: inline-block;
-    margin-left: 17%;
+    margin-left: 13%;
     
 }
 
@@ -136,20 +190,23 @@ h4{
 form{
     margin-top: 20px;
     border: 2px solid rgb(241, 211, 211);
-    display: inline-block;
+    display: block;
     background-color: whitesmoke;
-    width: 45%;
+    width: 75%;
     border-radius: 5px;
+    border: 2px solid  whitesmoke;
 }
 
 .input-form{
     float: right;
     border-radius: 5px;
     padding: 8px;
+    display: block;
 }
 input{
     padding: 8px;
     border-radius: 5px;
+    display: block;
 
 }
 

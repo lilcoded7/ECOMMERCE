@@ -87,43 +87,4 @@ class ShippingAddress(models.Model):
         return self.address 
 
 
-class Payment(models.Model):
-    amount = models.DecimalField(max_digits=7, decimal_places=2)
-    ref     = models.CharField(max_length=200)
-    email   = models.EmailField()
-    verified = models.BooleanField(default=False)
-    date_created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ('-date_created',)
-    
-    def __str__(self):
-        return 'payment: ', self.amount
-
-    def save(slef, *args, **kwargs):
-        while not self.ref:
-            ref = secrets.token_urlsafe(50)
-
-            similar_ref = Payment.objects.filter(ref=ref)
-            if not similar_ref:
-                self.ref = ref
-        super().save(*args, **kwargs)
-
-    def mount_value(self):
-        return float(self.amount * 100)
-
-
-    def verifypayment(self):
-        paystack = Paystack()
-
-        status, result = paystack.verify_payment(self.ref, self.amount)
-
-        if status:
-            if result['amount'] / 100 == self.amount:
-                self.verified = True 
-            self.save()
-            if self.verified:
-                return True 
-        return False 
-
     

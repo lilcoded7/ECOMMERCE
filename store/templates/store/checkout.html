@@ -4,37 +4,6 @@
 <link rel="stylesheet" href="{static 'css/main.css' %}">
 
 
-<div id="form-wrapper">
-    <form id="form" >
-        {% csrf_token %}
-        <div id="user-info">
-            <input type="text" name="username" placeholder="name">
-            <input class="input-form" name="email" type="text" placeholder="email">
-        </div>
-       
-        <div class="ship-container" id="shipping-info">
-
-            <div class="ship-info">Shipping Information</div>
-    
-            <input type="text" name="address" placeholder="Address">
-            <input class="input-form" name="country" type="text" placeholder="Country">
-    
-            <input type="text" name="state" placeholder="State">
-            <input class="input-form" name="city" type="text" placeholder="City">
-            <input type="text" name="zipcode" placeholder="Zip code">
-        </div>
-
-        
-        <button id="form-button" class="continue">Continue</button>
-    
-    </form>
-
-</div>
-<br><br>
-
-
-
-
 <div class="col-lg-12" style="display: inline-block;">
     <div class="box-element">
         <a href="{% url 'cart' %}" class="btn btn-outline-dark">&#x2190; Back to Cart</a>
@@ -50,19 +19,94 @@
         <h5 style="display: inline-block; margin-left: 15px;">${{item.product.price}}</h5>
         <h5 style="display: inline-block; margin-left: 15px;">x{{item.quantity}}</h5>
         <h5 style="display: block;">item:{{order.get_cart_items}}</h5>
-        <h5 name="total" style="display: block;">Total:${{order.get_cart_tatal|floatformat:2}}</h5>    
+        <h5 name="total" style="display: block;">Total:${{order.get_cart_total|floatformat:2}}</h5>    
     </div>       
     {% endfor %}
    
 </div>
-<br><br>
-<div class="box-element hidden" id="payment-info">
-    <small>Paypal Options</small>
 
-    <button id="make-payment">make payment</button>
+
+
+
+<div id="form-wrapper">
+    <form id="form" >
+        {% csrf_token %}
+        <div id="user-info">
+            <input type="text" name="username" placeholder="name">
+            <input class="input-form" name="email" type="text" placeholder="email">
+        </div>
+       
+        <div class="ship-container" id="shipping-info">
+
+            <div class="ship-info">Shipping Info</div>
+    
+            <input type="text" name="address" placeholder="Address">
+            <input class="input-form" name="country" type="text" placeholder="Country">
+    
+            <input type="text" name="state" placeholder="State">
+            <input class="input-form" name="city" type="text" placeholder="City">
+            <input type="text" name="zipcode" placeholder="Zip code">
+        </div>
+
+        
+        <button type="submit" id="form-button" onclick="payWithPaystack()" class="continue">Continue</button>
+    
+    </form>
+
 </div>
+<br><br>
+
+
+
 
 <br><br>
+<!-- <div class="box-element hidden" id="payment-info">
+    <small>Paypal Options</small>
+    <button type="pay"> Pay </button>
+    <button id="make-payment">make payment</button> -->
+<!-- </div>  -->
+
+<br><br>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+
+<script>
+    
+    const paymentForm = document.getElementById('form');
+    
+
+    paymentForm.addEventListener("submit", payWithPaystack, false);
+    function payWithPaystack(e) {
+        let total    = '{{order.get_cart_total}}'
+        console.log(total)
+            
+        e.preventDefault();
+
+        let handler = PaystackPop.setup({
+                
+          key: 'pk_test_9d98872ae2ee8caedf67cb718658e0ea8bdd314e', // Replace with your public key
+          email: 'lilcoded7@gmail.com',
+          amount: parseFloat(total).toFixed(2) * 100,
+          currency: 'GHS',
+          ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+          // label: "Optional string that replaces customer email"
+          onClose: function(){
+                  
+              alert('Window closed.');
+          },
+          callback: function(response){
+
+              let message = 'Payment complete! Reference: ' + response.reference;
+              alert(message);
+              submitFormData()
+              // window.location = + response.reference;
+          }
+        });
+
+        handler.openIframe();
+    }
+</script>
 
 
 
@@ -82,7 +126,7 @@
         // Hide entire form if user is logged in and shipping is false
         document.getElementById('form-wrapper').classList.add('hidden');
         // show payment if logged in user wants to buy an item that does not required shipping 
-        document.getElementsById('payment-info').classList.remove('hidden')
+        // document.getElementsById('payment-info').classList.remove('hidden')
     }
 
 
@@ -97,12 +141,12 @@
         e.preventDefault()
         console.log('form submitted...')
         document.getElementById('form-button').classList.add('hidden')
-        document.getElementById('payment-info').classList.remove('hidden')
+        // document.getElementById('payment-info').classList.remove('hidden')
     })
 
-    document.getElementById('make-payment').addEventListener('click', function(e){
-        submitFormData()
-    })
+    // document.getElementById('make-payment').addEventListener('click', function(e){
+    //     submitFormData()
+    // })
 
 
     function submitFormData(){
@@ -122,7 +166,7 @@
             'zipcode' : null, 
         }
 
-        if(shipping == 'False'){
+        if(shipping == 'True'){
             shippingInfo.address = form.address.value
             shippingInfo.country = form.country.value
             shippingInfo.city    = form.city.value
@@ -130,6 +174,8 @@
             shippingInfo.zipcode = form.zipcode.value   
             console.log(shippingInfo.country) 
             
+        }else{
+            alert('================INVALIDE DETAILS====================== ')
         }
             
 

@@ -15,7 +15,7 @@
             <table class="table">
                 <tr>
                     <th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th>
-                    <th><h5>Total: <strong>${{order.get_cart_tatal|floatformat:2}}</strong></h5></th>
+                    <th><h5>Total: <strong>${{order.get_cart_total|floatformat:2}}</strong></h5></th>
                     <th>
                         <a href="{% url 'checkout' %}" style="float: right; margin: 5px" class="btn btn-success">Checkout</a>
 
@@ -33,7 +33,7 @@
             <div class="cart-row">
                 <div class="cart-image">image</div>
                 <div class="cartrow"> <strong>Item</strong></div>
-                <div class="cartrow"><strong>Price</strong></div>
+                <div class="cartrowprice"><strong>Price</strong></div>
                 <div class="cartrow"><strong>Quantity</strong></div>
                 <div class="cartrow"><strong>Total</strong></div>
                  
@@ -41,13 +41,13 @@
             
             {% for item in items %}
             <div class="cart-row">
-                <div class="cartsimage-box"><img class="cartsimage" src="{{item.product.imageURL}}" alt="cart"></div>
-                <div class="cartsrow"> {{item.product.name}}</div>
-                <div class="cartsrow">${{item.product.price}}</div>
+                <img class="cartsimage" src="{{item.product.imageURL}}" alt="cart">
+                <div class="itemname"> {{item.product.name}}</div>
+                <div class="itemrowprice">${{item.product.price}}</div>
                 <div class="cartsrow">{{item.quantity}}</div>
                 <img data-product ="{{item.product.id}}" data-action="add" class="arrow-imge update-cart" src="{% static 'images/arrow-top.jpeg' %}" alt="">
                 <img data-product ="{{item.product.id}}" data-action="remove" class="arrow-imge update-cart" src="{% static 'images/arrow-down.jpeg' %}" alt="">
-                <div class="total">${{item.get_total|floatformat:2}}</div>
+                <div class="itemtotal">${{item.get_total|floatformat:2}}</div>
             </div>
             {% endfor %}
 

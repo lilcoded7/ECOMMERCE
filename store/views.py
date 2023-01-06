@@ -7,7 +7,8 @@ from . utils import cookieCart , cartDate, guestOrder
 from django.contrib import messages 
 from . import forms 
 from django.conf import settings 
-from .forms import PaymentForm
+from .utils import cookieCart
+
 
 
 # Create your views here.
@@ -16,33 +17,50 @@ from .forms import PaymentForm
 
 def store(request):
 
-    data       = cartDate(request)
-    cartItems  = data['cartItems']
+    if request.user.is_authenticated:
+        customer = request.user.customer 
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items    = order.orderitem_set.all()
+        cartItems = order.get_cart_items    
+    else:
+        cookieData = cookieCart(request)
+        cartItems  = cookieData['cartItems']
+        
+
        
     products = Product.objects.all()
     context = {'products':products, 'cartItems':cartItems}
     return render(request, 'store/store.html', context)
 
 
-
-
 def cart(request):
-    data       = cartDate(request)
-    cartItems  = data['cartItems']
-    order      = data['order']
-    items      = data['items']
-       
+    if request.user.is_authenticated:
+        customer = request.user.customer 
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items    = order.orderitem_set.all()
+        cartItems = order.get_cart_items    
+    else:
+        cookieData = cookieCart(request)
+        cartItems  = cookieData['cartItems']
+        order  = cookieData['order']
+        items  = cookieData['items']
         
-    context = {'items': items, 'order': order, 'cartItems':cartItems}
+    context = {'cartItems':cartItems, 'order':order, 'items':items}
     return render(request, 'store/cart.html', context)
 
 def checkout(request):
-    data       = cartDate(request)
-    cartItems  = data['cartItems']
-    order      = data['order']
-    items      = data['items']
+    if request.user.is_authenticated:
+        customer = request.user.customer 
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items    = order.orderitem_set.all()
+        cartItems = order.get_cart_items    
+    else:
+        cookieData = cookieCart(request)
+        cartItems  = cookieData['cartItems']
+        order  = cookieData['order']
+        items  = cookieData['items']   
  
-    context = {'items': items, 'order': order, 'cartItems':cartItems}
+    context = {'cartItems':cartItems, 'order':order, 'items':items}
 
     return render(request, 'store/checkout.html', context)
 
@@ -78,19 +96,15 @@ def updateItem(request):
 
       
 
-    # print('====================================')
-    # data       = json.loads(request.body)
-    # productId = data['productId']
-    # action    = data['action']
-    # print(productId)
+   
 
 
 
-from django.views.decorators.csrf import csrf_exempt 
+# from django.views.decorators.csrf import csrf_exempt 
 
-@csrf_exempt
+# @csrf_exempt
 def processOrder(request):
-
+    
     print('Data:', request.body, '=====================')
 
     transaction_id = datetime.datetime.now().timestamp()
@@ -106,14 +120,16 @@ def processOrder(request):
         
     total   = float(data['form']['total'])
     print(total, '===============================')
+    print(transaction_id, 'transaction Id')
     order.transaction_id = transaction_id
 
     if total == float(order.get_cart_total):
         order.complete = True 
     order.save()
+    print('Data Saved==========================')
     print('hello ======================================================================')
 
-    if order.shipping == True:
+    if order.shipping == False:
         shiping_details = ShippingAddress.objects.create(
             customer = customer,
             order    = order,
@@ -123,6 +139,7 @@ def processOrder(request):
             zipcode  = data['shipping']['zipcode'],
             
         )
+        print('===DETAILS SAVED========')
     else:
         print('-------------------Invalide credentials--------------------------')
 
@@ -132,21 +149,10 @@ def processOrder(request):
 
 
 
-def makepayment(request):
-    
-    return render(request, 'store/make_payment.html')
 
 
 
-def verify_payment(request, ref):
-    payment  = get_objects_or_400(Payment, ref=ref)
 
-    verified = payment.verifypayment()
-    if verified:
-        return messages.success(request, 'Verification Successful')
-    else:
-        return messages.success(request, 'Verification Failed')
-    return redirect('makepayment')
 
 
     

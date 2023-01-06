@@ -3,16 +3,17 @@ from .models import *
 
 def cookieCart(request):
     try:
+        # Anonymous user adding to cart item
         cart = json.loads(request.COOKIES['cart'])
     except:
         cart = {}
+        print('Cart:', cart)
 
-    print('Cart:', cart)
     items = []
     order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
     cartItems = order['get_cart_items']
 
-    # Anonuymus user adding to cart item 
+    # Anonymous user adding to cart item 
     for i in cart:
         try:   
             cartItems += cart[i]['quantity']
@@ -38,8 +39,9 @@ def cookieCart(request):
             if product.digital == False:
                 order['shipping'] = True 
         except:
-            pass 
-    return {'items': items, 'order': order, 'cartItems':cartItems}
+            pass  
+ 
+    return {'cartItems':cartItems, 'order': order, 'items': items}
 
 
 def cartDate(request):
@@ -54,7 +56,7 @@ def cartDate(request):
         cartItems  = cookieData['cartItems']
         order      = cookieData['order']
         items      = cookieData['items']
-        return {'cartItems':cartItems, 'order': order ,'items': items}
+        return { 'order': order ,'items': items, 'cartItems':cartItems}
 
 
 
