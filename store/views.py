@@ -3,16 +3,97 @@ from .models import *
 from django.http import JsonResponse 
 import json 
 import datetime 
-from . utils import cookieCart , cartDate, guestOrder
-from django.contrib import messages 
-from . import forms 
+
+from django.contrib import messages  
 from django.conf import settings 
-from .utils import cookieCart
+from .utils import cookieCart, Util, cartData
+from django.conf import settings 
+from django.core.mail import EmailMessage
+from .forms import registerForm, loginForm
+from django.contrib.auth import authenticate, login 
+
 
 
 
 # Create your views here.
 
+
+def verifyAcount(request):
+    return JsonResponse(request, 'Account Verified ', safe=False)
+
+
+
+
+
+def register(request):
+    form = registerForm()
+
+    if request.method == 'POST':
+        form = registerForm(request.POST)
+        print('passed =================================')
+
+        if form.is_valid():
+            password         = form.cleaned_data['password']
+            email            = form.cleaned_data['email']
+            confirm_password = form.cleaned_data['confirm_password']
+            message = 'Dear Customer, Congratulation Your Account Has Been Created Successfuly'
+            print(confirm_password)
+            
+
+            if password == confirm_password:
+                pass 
+            else:
+                messages.info(request, 'Password Is Not The Same')
+                print('saving form ==============================') 
+            form.save() 
+                
+            sendEmail = EmailMessage(
+                'Owusuwa Collection',
+                message,
+                settings.EMAIL_HOST_USER,
+                [email]
+            )
+            sendEmail.fail_silently = True
+            sendEmail.send()
+
+            return redirect('login')
+        else:
+            
+            messages.info(request, 'Get Request')
+
+    else:
+        print('Get request 6')
+        form = registerForm()
+        
+     
+    return render(request, 'store/register.html', {'form': form})
+
+
+def login(request):
+    form = loginForm()
+
+    if request.method == 'POST':
+        form = loginForm(request.POST)
+
+        if form.is_valid():
+
+            username = form.cleaned_data['name']
+            password = form.cleaned_data['password']
+            print(username, '=============================')
+
+            user = authenticate(request, name=username, password=password)
+
+            print('Authentications Correct')
+            user = Customer.objects.get(name=username)
+            if password == user.password or username == user.email:
+                return redirect('home')   
+            else:
+                messages.info(request, 'Invalide Credentials') 
+                return redirect('login')  
+    else:
+        form = loginForm() 
+
+    return render(request, 'store/login.html', {'form':form})
 
 
 def store(request):
@@ -92,13 +173,10 @@ def updateItem(request):
     if orderItem.quantity <= 0:
         orderItem.delete()  
 
+
     return JsonResponse('Item was added', safe=False)
 
       
-
-   
-
-
 
 # from django.views.decorators.csrf import csrf_exempt 
 
@@ -115,6 +193,7 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        
     else:
         customer, order = guestOrder(request, data)
         
@@ -143,9 +222,27 @@ def processOrder(request):
     else:
         print('-------------------Invalide credentials--------------------------')
 
+    
+    email = request.user.email
+    request.session['customer_email'] = email
+    email_notifications(request)
 
     return JsonResponse('payment complete !', safe=False)
 
+def email_notifications(request):
+    email = request.session['customer_email']
+    message = 'Dear Customer , Your order has been placed successfully'
+
+    sendEmail = EmailMessage(
+        'Owusuwa Collection',
+        message,
+        settings.EMAIL_HOST_USER,
+        [email]
+    )
+    sendEmail.fail_silently = True
+    sendEmail.send()
+
+    return render(request, 'store/checkout.html')
 
 
 

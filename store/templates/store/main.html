@@ -82,13 +82,13 @@
              
             </ul>
             <div class="form-inline my-2 my-lg-0">
-                <a href="" class="btn btn-warning">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-warning">Register</a>
 
                 <a href="{% url 'cart' %}">
                     <img src="{% static 'images/cartlogo.jpeg' %}" id="cart-icon" alt="">
 
                 </a>
-                <p id="cart-total">{{cartItems}}</p>
+                <a href="{% url 'cart' %}"><p id="cart-total">{{cartItems}}</p></a>
 
 
             </div>

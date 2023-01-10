@@ -32,22 +32,31 @@
         <div class="box-element">
             <div class="cart-row">
                 <div class="cart-image">image</div>
-                <div class="cartrow"> <strong>Item</strong></div>
-                <div class="cartrowprice"><strong>Price</strong></div>
-                <div class="cartrow"><strong>Quantity</strong></div>
-                <div class="cartrow"><strong>Total</strong></div>
-                 
+                <div class="cart-row-items">
+                    <div class="cartrow"> <strong>Item</strong></div>
+                    <div class="cartrowprice"><strong>Price</strong></div>
+                    <div class="quantity"><strong>Quantity</strong></div>
+                    <div class="carttotal"><strong>Total</strong></div>
+                </div>
             </div>
             
             {% for item in items %}
-            <div class="cart-row">
+            <div class="cart-item-container">
                 <img class="cartsimage" src="{{item.product.imageURL}}" alt="cart">
-                <div class="itemname"> {{item.product.name}}</div>
-                <div class="itemrowprice">${{item.product.price}}</div>
-                <div class="cartsrow">{{item.quantity}}</div>
-                <img data-product ="{{item.product.id}}" data-action="add" class="arrow-imge update-cart" src="{% static 'images/arrow-top.jpeg' %}" alt="">
-                <img data-product ="{{item.product.id}}" data-action="remove" class="arrow-imge update-cart" src="{% static 'images/arrow-down.jpeg' %}" alt="">
-                <div class="itemtotal">${{item.get_total|floatformat:2}}</div>
+                <div class="cartcontainer">
+                    <div class="itemname"> {{item.product.name}}</div>
+                    <div class="price-container">
+                        <div class="itemrowprice">${{item.product.price}}</div>
+                    </div>
+                    
+                    <div class="cartsrow">{{item.quantity}}</div>
+                    <img data-product ="{{item.product.id}}" data-action="add" class="arrow-imge update-cart" src="{% static 'images/arrow-top.jpeg' %}" alt="">
+                    <img data-product ="{{item.product.id}}" data-action="remove" class="arrow-imge update-cart" src="{% static 'images/arrow-down.jpeg' %}" alt="">
+                    <div class="itemtotal">${{item.get_total|floatformat:2}}</div>
+
+                </div>
+
+                
             </div>
             {% endfor %}
 

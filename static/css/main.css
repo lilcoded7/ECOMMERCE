@@ -15,6 +15,7 @@
 .update-cart{
     /* background-color: blue; */
 }
+
 #cart-total{
     display: inline-block;
     text-align: center;
@@ -45,6 +46,9 @@
 .cart-row{
     width: 100%;
     display: block;
+    margin-top: 10px;
+    justify-content: space-around;
+    border: 2px solid gainsboro;
     /* border: 2px solid green; */
     align-items: center;
 }
@@ -63,22 +67,23 @@
 
 .pro-container{
     width: 45%;
-    height: 360px;
+    height: 455px;
     border-radius: 5px;
     /* border: 2px solid gray; */
     margin-left: 9px;
     margin-bottom: 30px;
+    margin-top: 10px;
     display: inline-block;
     
     /* margin-left: 10%; */
     /* background-color: gray; */
-    /* border: 2px solid red; */
+    border: 2px solid whitesmoke;
     
 }
 
 .image{
     width: 100%;
-    height: 200px;
+    height: 300px;
     display: block;
 }
 
@@ -89,7 +94,7 @@
 }
 
 .pro-element{
-    display: block;
+    display: inline-block;
 
 }
 
@@ -102,10 +107,11 @@
 
 .View{
     display: inline-block;
+
     /* width: 15%; */
 }
 
-h4{
+.pro-price{
     float: right;
     display: inline-block;
 }
@@ -121,31 +127,69 @@ h4{
 
 .itemname{
     display: inline-block;
-    margin-left: 5%;
+    font-size: 11px;
+    float: left;
+    padding: none;
 }
 
 .itemtotal{
     display: inline-block;
-    margin-left: 5%;
+    /* margin-left: 5%; */
 }
 
 .cartrowprice{
     display: inline-block;
-    margin-left: 10%;
+    margin-left: 8%;
 
 }
 
 .itemrowprice{
     display: inline-block;
+    font-size: 11px;
     margin-left: 10%;
-    text-align: left;
+    /* text-align: left; */
 }
+
+.itemrowprice{
+    display: inline-block;
+    border: 2px solid red;
+    float: right;
+
+}
+
 
 .cartrow{
     display: inline-block; 
-    margin-left: 3%;
+    float: left;
     /* float: right; */
 
+}
+
+.carttotal{
+    display: inline-block;
+    float: right;
+}
+
+
+.cart-row-items{
+    display: inline-block;
+    margin-left: 5%;
+    border: 2px solid red;
+    width: 80%;
+    padding: 5%;
+}
+
+.cartcontainer{
+    display: inline-block;
+    margin-left: 7%;
+    border: 2px solid red;
+    width: 80%;
+    padding: 5%;
+
+}
+
+.cart-item-container{
+    margin-top: 30px;
 }
 
 
@@ -156,7 +200,8 @@ h4{
 }
 
 .quantity{
-    /* display: inline-block; */
+    display: inline-block;
+    margin-left: 8%;
 
 }
 
@@ -227,3 +272,24 @@ input{
 }
 
 
+@media all and (min-width: 1280px){
+
+    .pro-container{
+        width: 35%;
+        height: 415px;
+        border-radius: 5px;
+        /* border: 2px solid gray; */
+        margin-left: 9px;
+        margin-bottom: 30px;
+        margin-top: 10px;
+        display: inline-block;
+        
+        /* margin-left: 10%; */
+        /* background-color: gray; */
+        border: 2px solid whitesmoke;
+        
+    }
+    
+    
+
+}

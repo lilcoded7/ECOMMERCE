@@ -1,5 +1,22 @@
 import json
 from .models import * 
+from django.core.mail import EmailMessage 
+
+
+
+class Util:
+    @staticmethod
+    def send_email(data):
+
+        email = EmailMessage(
+            subject = data['email_subject'],
+            body = data['body'],
+            to = [data['to']],
+        )
+        email.send()
+
+
+
 
 def cookieCart(request):
     try:
@@ -44,7 +61,7 @@ def cookieCart(request):
     return {'cartItems':cartItems, 'order': order, 'items': items}
 
 
-def cartDate(request):
+def cartData(request):
 
     if request.user.is_authenticated:
         customer = request.user.customer 
@@ -54,9 +71,9 @@ def cartDate(request):
     else:
         cookieData = cookieCart(request)
         cartItems  = cookieData['cartItems']
-        order      = cookieData['order']
-        items      = cookieData['items']
-        return { 'order': order ,'items': items, 'cartItems':cartItems}
+        order  = cookieData['order']
+        items  = cookieData['items']
+        return {'cartItems':cartItems, 'order': order, 'items': items}
 
 
 
