@@ -11,7 +11,6 @@ urlpatterns = [
     path('process-order/', views.processOrder, name='process-order'),
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),
-    path('verifyAcount', views.verifyAcount, name='verifyAccount')
+    path('verifyAcount/', views.verifyAcount, name='account-verification')
     
-
 ]

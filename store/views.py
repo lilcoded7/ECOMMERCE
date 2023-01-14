@@ -9,17 +9,13 @@ from django.conf import settings
 from .utils import cookieCart, Util, cartData
 from django.conf import settings 
 from django.core.mail import EmailMessage
-from .forms import registerForm, loginForm
+from .forms import registerForm, loginForm, VerifyForm
 from django.contrib.auth import authenticate, login 
 
 
 
 
 # Create your views here.
-
-
-def verifyAcount(request):
-    return JsonResponse(request, 'Account Verified ', safe=False)
 
 
 
@@ -30,43 +26,84 @@ def register(request):
 
     if request.method == 'POST':
         form = registerForm(request.POST)
-        print('passed =================================')
+       
 
         if form.is_valid():
+            username         = form.cleaned_data['name']
             password         = form.cleaned_data['password']
-            email            = form.cleaned_data['email']
-            confirm_password = form.cleaned_data['confirm_password']
-            message = 'Dear Customer, Congratulation Your Account Has Been Created Successfuly'
-            print(confirm_password)
-            
+            cust_email            = form.cleaned_data['email']
+            confirm_password  = form.cleaned_data['confirm_password']
+
+            request.session['email'] = cust_email
 
             if password == confirm_password:
-                pass 
-            else:
-                messages.info(request, 'Password Is Not The Same')
-                print('saving form ==============================') 
-            form.save() 
+
+                customer   = Customer.objects.create(
+                    name=username,
+                    email=cust_email,
+                    password=password,
+                    confirm_password=confirm_password,
+                )
+                code = customer.verify_code
+                print(code, 'code =========================')
                 
+                message   = f'Your Verification Code is : {code}'
+                
+                sendEmail = EmailMessage(
+                'Owusuwa Collection, Email Verification Code',
+                message,
+                settings.EMAIL_HOST_USER,
+                [cust_email]
+                )  
+                sendEmail.fail_silently = True
+                sendEmail.send() 
+                return redirect('account-verification')  
+
+            elif verifyAcount(request, email):
+                pass  
+            else:
+                messages.info(request, 'Password Is Not The Same') 
+                # verifyAcount(request, email)       
+        else:
+            return messages.info(request, 'Invalide Credentials')   
+      
+    return render(request, 'store/register.html', {'form': form})
+
+
+def verifyAcount(request):
+    
+
+    form = VerifyForm() 
+
+    if request.method == 'POST':
+        form = VerifyForm(request.POST)
+
+        if form.is_valid():
+                
+            code = form.cleaned_data['code']
+            print(code)
+                
+            verify_code = Customer.objects.get(verify_code=code) 
+
+            email = verify_code.email
+
+            message = 'Dear Customer Your Account Has Been Created Successfully'
             sendEmail = EmailMessage(
-                'Owusuwa Collection',
+                'Owusuwa Collection, Email Verification Code',
                 message,
                 settings.EMAIL_HOST_USER,
                 [email]
-            )
+            )  
             sendEmail.fail_silently = True
-            sendEmail.send()
-
-            return redirect('login')
+            sendEmail.send() 
+            # code.delete()
+            return redirect('login')    
         else:
+            messages.info(request, 'Invalide Code')
             
-            messages.info(request, 'Get Request')
 
-    else:
-        print('Get request 6')
-        form = registerForm()
-        
-     
-    return render(request, 'store/register.html', {'form': form})
+    return render(request, 'store/verify.html', {'form':form})
+
 
 
 def login(request):

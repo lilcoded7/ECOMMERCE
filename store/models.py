@@ -2,18 +2,36 @@ from django.db import models
 from django.contrib.auth.models import User 
 import secrets
 from .paystack import Paystack
+from django.db.models.signals import post_save 
+from django.dispatch import receiver 
+import random  
 
 # Create your models here.
 class Customer(models.Model):
     user           = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name           = models.CharField(max_length=200)
     email          = models.CharField(max_length=200)
-    email_verified = models.BooleanField(default=False)
+    verify_code    = models.CharField(max_length=8, blank=True)
+    is_verified    = models.BooleanField(default=False)
     password       = models.CharField(max_length=100, null=True)
     confirm_password = models.CharField(max_length=100, null=True)
 
+    
+    def save(self, *args, **kwargs):
+        num = random.randint(0000, 9999)
+        self.verify_code = num 
+        super(Customer, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name 
+
+
+# @receiver(post_save, sender=Customer)
+# def verifyAccount(sender, instance, created, **kwargs):
+#     if created:
+#         num = random.randint(0000, 9999)
+
+
 
 class Product(models.Model):
     name      = models.CharField(max_length=100)

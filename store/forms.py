@@ -82,5 +82,15 @@ class loginForm(forms.Form):
     )
 
    
-
+class VerifyForm(forms.Form):
+    code = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder':'Enter verification code',
+                'type'       : 'text',
+                'class'      : 'form-control'
+            }
+        )
+    )
     
