@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*e8)!*2m-s4*3+oo($@d3ar=(-waj-x(%t++3ghvf_#ww&v2(!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -75,6 +75,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
+# CSRF_TRUSTED_ORIGINS = ['*']
+
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -122,14 +124,11 @@ USE_I18N = True
 USE_TZ = True
 
 
-LOGIN_REDIRECT_URL = '/'
+
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-
-
 
 
 STATIC_URL = 'static/'
