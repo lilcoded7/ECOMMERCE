@@ -8,19 +8,15 @@ import random
 
 # Create your models here.
 class Customer(models.Model):
-    user           = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    name           = models.CharField(max_length=200)
-    email          = models.CharField(max_length=200)
-    verify_code    = models.CharField(max_length=8, blank=True)
-    is_verified    = models.BooleanField(default=False)
-    password       = models.CharField(max_length=100, null=True)
-    confirm_password = models.CharField(max_length=100, null=True)
-
+    user  = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    name  = models.CharField(max_length=200)
+    email = models.EmailField()
     
-    def save(self, *args, **kwargs):
-        num = random.randint(0000, 9999)
-        self.verify_code = num 
-        super(Customer, self).save(*args, **kwargs)
+ 
+    # def save(self, *args, **kwargs): 
+    #     num = random.randint(0000, 9999)
+    #     self.verify_code = num 
+    #     super(Customer, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name 

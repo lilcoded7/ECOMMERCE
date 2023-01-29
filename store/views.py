@@ -9,8 +9,8 @@ from django.conf import settings
 from .utils import cookieCart, Util, cartData
 from django.conf import settings 
 from django.core.mail import EmailMessage
-from .forms import registerForm, loginForm, VerifyForm
-from django.contrib.auth import authenticate, login 
+from .forms import RegisterForm, loginForm, VerifyForm
+from django.contrib.auth import authenticate, login, logout
 
 
 
@@ -19,118 +19,8 @@ from django.contrib.auth import authenticate, login
 
 
 
-
-
 def register(request):
-    form = registerForm()
-
-    if request.method == 'POST':
-        form = registerForm(request.POST)
-       
-
-        if form.is_valid():
-            username         = form.cleaned_data['name']
-            password         = form.cleaned_data['password']
-            cust_email            = form.cleaned_data['email']
-            confirm_password  = form.cleaned_data['confirm_password']
-
-            request.session['email'] = cust_email
-
-            if password == confirm_password:
-
-                customer   = Customer.objects.create(
-                    name=username,
-                    email=cust_email,
-                    password=password,
-                    confirm_password=confirm_password,
-                )
-                code = customer.verify_code
-                print(code, 'code =========================')
-                
-                message   = f'Your Verification Code is : {code}'
-                
-                sendEmail = EmailMessage(
-                'Owusuwa Collection, Email Verification Code',
-                message,
-                settings.EMAIL_HOST_USER,
-                [cust_email]
-                )  
-                sendEmail.fail_silently = True
-                sendEmail.send() 
-                return redirect('account-verification')  
-
-            elif verifyAcount(request, email):
-                pass  
-            else:
-                messages.info(request, 'Password Is Not The Same') 
-                # verifyAcount(request, email)       
-        else:
-            return messages.info(request, 'Invalide Credentials')   
-      
-    return render(request, 'store/register.html', {'form': form})
-
-
-def verifyAcount(request):
-    
-
-    form = VerifyForm() 
-
-    if request.method == 'POST':
-        form = VerifyForm(request.POST)
-
-        if form.is_valid():
-                
-            code = form.cleaned_data['code']
-            print(code)
-                
-            verify_code = Customer.objects.get(verify_code=code) 
-
-            email = verify_code.email
-
-            message = 'Dear Customer Your Account Has Been Created Successfully'
-            sendEmail = EmailMessage(
-                'Owusuwa Collection, Email Verification Code',
-                message,
-                settings.EMAIL_HOST_USER,
-                [email]
-            )  
-            sendEmail.fail_silently = True
-            sendEmail.send() 
-            # code.delete()
-            return redirect('login')    
-        else:
-            messages.info(request, 'Invalide Code')
-            
-
-    return render(request, 'store/verify.html', {'form':form})
-
-
-
-def login(request):
-    form = loginForm()
-
-    if request.method == 'POST':
-        form = loginForm(request.POST)
-
-        if form.is_valid():
-
-            username = form.cleaned_data['name']
-            password = form.cleaned_data['password']
-            print(username, '=============================')
-
-            user = authenticate(request, name=username, password=password)
-
-            print('Authentications Correct')
-            user = Customer.objects.get(name=username)
-            if password == user.password or username == user.email:
-                return redirect('home')   
-            else:
-                messages.info(request, 'Invalide Credentials') 
-                return redirect('login')  
-    else:
-        form = loginForm() 
-
-    return render(request, 'store/login.html', {'form':form})
+    return render(request, 'store/register.html')
 
 
 def store(request):
@@ -148,7 +38,7 @@ def store(request):
        
     products = Product.objects.all()
     context = {'products':products, 'cartItems':cartItems}
-    return render(request, 'store/store.html', context)
+    return render(request, 'store/index.html', context)
 
 
 def cart(request):
@@ -164,7 +54,7 @@ def cart(request):
         items  = cookieData['items']
         
     context = {'cartItems':cartItems, 'order':order, 'items':items}
-    return render(request, 'store/cart.html', context)
+    return render(request, 'store/order-details.html', context)
 
 def checkout(request):
     if request.user.is_authenticated:
@@ -185,6 +75,7 @@ def checkout(request):
 
 def updateItem(request):
     data      = json.loads(request.body)
+    print(data,'000000000000000000000000000000000')
     productId = data['productId']
     action = data['action']
 

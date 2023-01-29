@@ -1,72 +1,334 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="{static 'css/main.css' %}">
+
+<!-- Navigation -->
+<section class="final-order section-padding bg-light-theme">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="main-box padding-20">
+                    <div class="row mb-xl-20">
+                        <div class="col-md-6">
+                            <div class="section-header-left">
+                                <h3 class="text-light-black header-title fw-700">Review and place order</h3>
+                            </div>
+                            <h6 class="text-light-black fw-700 fs-14">Review address, payments, and tip to complete your purchase</h6>
+                            <h6 class="text-light-black fw-700 mb-2">Your order setting</h6>
+                            <p class="text-light-green fw-600">Delivery, ASAP (60-70m)</p>
+                            <p class="text-light-white title2 mb-1">Jhon Deo <span><a href="#">Change Details</a></span>
+                            </p>
+                            <p class="text-light-black fw-600 mb-1">Home</p>
+                            <p class="text-light-white mb-1">314 79th st 70 Brooklyn, NY 11209
+                                <br>Cross Street, Rite Aid</p>
+                            <p class="text-light-white">(347) 1234567890</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="advertisement-img">
+                                <img src="{% static 'assets/img/checkout.jpg' %}" class="img-fluid full-width" alt="advertisement-img">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="payment-sec">
+                                <div class="section-header-left">
+                                    <h3 class="text-light-black header-title">Delivery Instructions</h3>
+                                </div>
+                                <div class="col-lg-12" style="display: inline-block;">
+                                    <div class="box-element">
+                                        <a href="{% url 'cart' %}" class="btn btn-outline-dark">&#x2190; Back to Cart</a>
+                                        <br>
+                                        <br>
+                                
+                                    
+                                    <div style="margin: 15px;">Order Summary </div> 
+                                    {% for item in items %}
+                                    <div class="cart-row">
+                                        <img style="width: 6%; display: inline-block;" src="{{item.product.imageURL}}" alt="">
+                                        <h5 style="display: inline-block; margin-left: 25px;">{{item.product.name}}</h5>
+                                        <h5 style="display: inline-block; margin-left: 15px;">${{item.product.price}}</h5>
+                                        <h5 style="display: inline-block; margin-left: 15px;">x{{item.quantity}}</h5>
+                                        <h5 style="display: block;">item:{{order.get_cart_items}}</h5>
+                                        <h5 name="total" style="display: block;">Total:${{order.get_cart_total|floatformat:2}}</h5>    
+                                    </div>       
+                                    {% endfor %}
 
 
-<div class="col-lg-12" style="display: inline-block;">
-    <div class="box-element">
-        <a href="{% url 'cart' %}" class="btn btn-outline-dark">&#x2190; Back to Cart</a>
-        <br>
-        <br>
+                                    <div id="form-wrapper">
+                                        <form id="form" >
+                                            {% csrf_token %}
+                                            <div id="user-info">
+                                                <input type="text" name="username" placeholder="full name" required> 
+                                                <input class="input-form" name="email" type="text" placeholder="email" required>
+                                            </div>
+                                            
+                                            <div class="ship-container" id="shipping-info">
+                                    
+                                                <div class="ship-info">Shipping Info</div>
+                                        
+                                                <input type="text" name="address" placeholder="Address">
+                                                <input class="input-form" name="country" type="text" placeholder="Country" required>
+                                        
+                                                <input type="text" name="state" placeholder="City" required>
+                                                <input class="input-form" name="city" type="text" placeholder="Town" required>
+                                                <input type="text" name="zipcode" placeholder="Zip code" required>
+                                            </div><br>
+                                    
+                                            
+                                            <div class="form-group">
+                                                <button type="submit" class="btn-first green-btn text-custom-white full-width fw-500">Place Your Order</button>
+                                            </div>
+                                            <p class="text-center  text-light-black no-margin" onclick="payWithPaystack()" >By placing your order, you agree to JEHOTOP|Shop <a href="#">terms of use</a> and <a href="#">privacy agreement</a>
 
+
+                                        
+                                        </form>
+                                    
+                                    </div>
+                                    
+                                </div>
     
-    <div style="margin: 15px;">Order Summary </div> 
-    {% for item in items %}
-    <div class="cart-row">
-        <img style="width: 6%; display: inline-block;" src="{{item.product.imageURL}}" alt="">
-        <h5 style="display: inline-block; margin-left: 25px;">{{item.product.name}}</h5>
-        <h5 style="display: inline-block; margin-left: 15px;">${{item.product.price}}</h5>
-        <h5 style="display: inline-block; margin-left: 15px;">x{{item.quantity}}</h5>
-        <h5 style="display: block;">item:{{order.get_cart_items}}</h5>
-        <h5 name="total" style="display: block;">Total:${{order.get_cart_total|floatformat:2}}</h5>    
-    </div>       
-    {% endfor %}
-   
+        </div>
+    </div>
+</section>
+    <!-- footer -->
+<div class="footer-top section-padding">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-credit-card-1"></i></span>
+                    <span class="text-light-black">100% Payment<br>Secured</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-wallet-1"></i></span>
+                    <span class="text-light-black">Support lots<br> of Payments</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-help"></i></span>
+                    <span class="text-light-black">24 hours / 7 days<br>Support</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-truck"></i></span>
+                    <span class="text-light-black">Free Delivery<br>with $50</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-guarantee"></i></span>
+                    <span class="text-light-black">Best Price<br>Guaranteed</span>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-6">
+                <div class="icon-box"> <span class="text-light-green"><i class="flaticon-app-file-symbol"></i></span>
+                    <span class="text-light-black">Mobile Apps<br>Ready</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="section-padding bg-light-theme pt-0 u-line">
+    <div class="u-line instagram-slider swiper-container">
+        <ul class="hm-list hm-instagram swiper-wrapper">
+            <li class="swiper-slide">
+                <a href="#"><img src="{% static 'assets/img/restaurants/250x200/insta-3.jpg' %}" alt="instagram"></a>
+            </li>
+            <li class="swiper-slide">
+                <a href="#"><img src="{% static 'assets/img/restaurants/250x200/insta-1.jpg' %}" alt="instagram"></a>
+            </li>
+            <li class="swiper-slide">
+                <a href="#"><img src="{% static 'assets/img/restaurants/250x200/insta-2.jpg' %}" alt="instagram"></a>
+            </li>
+            <li class="swiper-slide">
+                <a href="#"><img src="{% static 'assets/img/restaurants/250x200/insta-4.jpg' %}" alt="instagram"></a>
+            </li>
+            <li class="swiper-slide">
+                <a href="#"><img src="{% static 'assets/img/restaurants/250x200/insta-5.jpg" alt="instagram"></a>
+            </li>
+            <li class="swiper-slide">
+                <a href="#"><img src="{% static 'assets/img/restaurants/250x200/insta-6.jpg' %}" alt="instagram"></a>
+            </li>
+            <li class="swiper-slide">
+                <a href="#"><img src="{% static 'assets/img/restaurants/250x200/insta-7.jpg' %}" alt="instagram"></a>
+            </li>
+            <li class="swiper-slide">
+                <a href="#"><img src="{% static 'assets/img/restaurants/250x200/insta-8.jpg' %}" alt="instagram"></a>
+            </li>
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
+                <div class="footer-contact">
+                    <h6 class="text-light-black">Need Help</h6>
+                    <ul>
+                        <li class="fw-600"><span class="text-light-white">Call Us</span> <a href="tel:" class="text-light-black">+(347) 123 456 789</a>
+                        </li>
+                        <li class="fw-600"><span class="text-light-white">Email Us</span> <a href="mailto:" class="text-light-black">demo@domain.com</a>
+                        </li>
+                        <li class="fw-600"><span class="text-light-white">Join our twitter</span> <a href="#" class="text-light-black">@munchbox</a>
+                        </li>
+                        <li class="fw-600"><span class="text-light-white">Join our instagram</span> <a href="#" class="text-light-black">@munchbox</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
+                <div class="footer-links">
+                    <h6 class="text-light-black">Get to Know Us</h6>
+                    <ul>
+                        <li><a href="#" class="text-light-white fw-600">About Us</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Blog</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Socialize</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Munchbox</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Perks</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
+                <div class="footer-links">
+                    <h6 class="text-light-black">Let Us Help You</h6>
+                    <ul>
+                        <li><a href="#" class="text-light-white fw-600">Account Details</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Order History</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Find restaurant</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Login</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Track order</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
+                <div class="footer-links">
+                    <h6 class="text-light-black">Doing Business</h6>
+                    <ul>
+                        <li><a href="#" class="text-light-white fw-600">Suggest an Idea</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Be a Partner restaurant</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Create an Account</a>
+                        </li>
+                        <li><a href="#" class="text-light-white fw-600">Help</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
+                <div class="footer-links">
+                    <h6 class="text-light-black">Download Apps</h6>
+                    <div class="appimg">
+                        <a href="#">
+                            <img src="{% static 'assets/img/playstore.jpg' %}" class="img-fluid" alt="app logo">
+                        </a>
+                    </div>
+                    <div class="appimg">
+                        <a href="#">
+                            <img src="{% static 'assets/img/appstore.jpg' %}" class="img-fluid" alt="app logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl col-lg-4 col-md-4 col-sm-6">
+                <div class="footer-contact">
+                    <h6 class="text-light-black">Newsletter</h6>
+                    <form class="subscribe_form">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-submit" name="email" placeholder="Enter your email">
+                            <span class="input-group-btn">
+                    <button class="btn btn-second btn-submit" type="button"><i class="fas fa-paper-plane"></i></button>
+                </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="ft-social-media">
+                    <h6 class="text-center text-light-black">Follow us</h6>
+                    <ul>
+                        <li> <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        </li>
+                        <li> <a href="#"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li> <a href="#"><i class="fab fa-instagram"></i></a>
+                        </li>
+                        <li> <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        </li>
+                        <li> <a href="#"><i class="fab fa-youtube"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="copyright">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="payment-logo mb-md-20"> <span class="text-light-white fs-14 mr-3">We are accept</span>
+                    <div class="payemt-icon">
+                        <img src="{% static 'assets/img/card-front.jpg' %}" alt="#">
+                        <img src="{% static 'assets/img/visa.jpg' %}" alt="#">
+                        <img src="{% static 'assets/img/amex-card-front.png' %}" alt="#">
+                        <img src="{% static 'assets/img/mastercard.png' %}" alt="#">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center medewithlove align-self-center">
+                <a href="http://www.slidesigma.com/" class="text-light-black">Made with Real <i class="fas fa-heart"></i> Slidesigma</a>
+            </div>
+            <div class="col-lg-4">
+                <div class="copyright-text"> <span class="text-light-black"><a href="templateshub.net">Templates Hub</a> </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer -->
+<!-- modal boxes -->
+<div class="modal fade" id="address-box">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title fw-700">Change Address</h4>
+            </div>
+            <div class="modal-body">
+                <div class="location-picker">
+                    <input type="text" class="form-control" placeholder="Enter a new address">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="search-box">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="search-box p-relative full-width">
+                    <input type="text" class="form-control" placeholder="Pizza, Burger, Chinese">
+                </div>
+            </div>
+            <div class="modal-body"></div>
+        </div>
+    </div>
 </div>
 
+{% endblock content %}
 
-
-
-<div id="form-wrapper">
-    <form id="form" >
-        {% csrf_token %}
-        <div id="user-info">
-            <input type="text" name="username" placeholder="name">
-            <input class="input-form" name="email" type="text" placeholder="email">
-        </div>
-       
-        <div class="ship-container" id="shipping-info">
-
-            <div class="ship-info">Shipping Info</div>
-    
-            <input type="text" name="address" placeholder="Address">
-            <input class="input-form" name="country" type="text" placeholder="Country">
-    
-            <input type="text" name="state" placeholder="State">
-            <input class="input-form" name="city" type="text" placeholder="City">
-            <input type="text" name="zipcode" placeholder="Zip code">
-        </div>
-
-        
-        <button type="submit" id="form-button" onclick="payWithPaystack()" class="continue">Continue</button>
-    
-    </form>
-
-</div>
-<br><br>
-
-
-
-
-<br><br>
-<!-- <div class="box-element hidden" id="payment-info">
-    <small>Paypal Options</small>
-    <button type="pay"> Pay </button>
-    <button id="make-payment">make payment</button> -->
-<!-- </div>  -->
-
-<br><br>
+    <!-- paystack -->
 
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
@@ -128,7 +390,7 @@
         // show payment if logged in user wants to buy an item that does not required shipping 
         // document.getElementsById('payment-info').classList.remove('hidden')
     }
-
+                                                                                                                                                                                                                    
 
 
     let form = document.getElementById('form')
@@ -213,13 +475,15 @@
 
     }
 
-
-
 </script>
 
-{% endblock content %}
 
 
 
-    
+
+
+
+
+
+
 

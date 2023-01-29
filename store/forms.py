@@ -1,12 +1,12 @@
 from django import forms 
 from .models import Customer
+from django.contrib.auth.models import User 
+from django.contrib.auth.forms import UserCreationForm 
 
 
 
-
-
-class registerForm(forms.ModelForm):
-    name = forms.CharField(
+class RegisterForm(UserCreationForm):
+    username = forms.CharField(
         required=True,
         widget=forms.TextInput(
             attrs={
@@ -16,6 +16,7 @@ class registerForm(forms.ModelForm):
             }
         )
     )
+
 
     email = forms.CharField(
         required=True,
@@ -28,7 +29,7 @@ class registerForm(forms.ModelForm):
         )
     )
 
-    password = forms.CharField(
+    password1 = forms.CharField(
         required=True,
         widget=forms.TextInput(
             attrs={
@@ -39,11 +40,11 @@ class registerForm(forms.ModelForm):
         )
     )
 
-    confirm_password = forms.CharField(
+    password2 = forms.CharField(
         required=True,
         widget=forms.TextInput(
             attrs={
-                'placeholder':'Confirm password',
+                'placeholder':'confirm password',
                 'type'       : 'password',
                 'class'      : 'form-control'
             }
@@ -51,15 +52,13 @@ class registerForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Customer
-        fields = ['name', 'email', 'password', 'confirm_password']
+        model  = User
+        fields = ['username', 'email', 'password1', 'password2']
 
-
-  
 
 
 class loginForm(forms.Form):
-    name = forms.CharField(
+    username = forms.CharField(
         required=True,
         widget=forms.TextInput(
             attrs={
@@ -70,7 +69,7 @@ class loginForm(forms.Form):
         )
     )
 
-    password = forms.CharField(
+    password1  = forms.CharField(
         required=True,
         widget=forms.TextInput(
             attrs={
@@ -80,6 +79,8 @@ class loginForm(forms.Form):
             }
         )
     )
+
+    
 
    
 class VerifyForm(forms.Form):
