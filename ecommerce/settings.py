@@ -40,10 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,8 +81,12 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE'   : 'django.db.backends.postgresql',
+        'NAME'     : 'railway',
+        'USER'     : 'postgres',
+        'PASSWORD' : 'rBchi8GfKNDxRd2loUmZ',
+        'HOST'     : 'containers-us-west-195.railway.app',
+        'PORT'     : '6905',
     }
 }
 
@@ -126,10 +133,12 @@ LOGIN_REDIRECT_URL = '/'
 
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 
 STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+
 
 
 MEDIA_URL  = 'images/'
@@ -141,9 +150,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-PAYSTACK_SECRETAPI_KEY = 'sk_live_d4039e928f5d4d81fe00acd97652fed8c60325b3'
-PAYSTACK_PUBLICAPI_KEY = 'pk_live_75134698c12c8677a89d6a8820585d8da726b7df'
 
 
 EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'

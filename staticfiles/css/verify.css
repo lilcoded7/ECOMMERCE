@@ -1,0 +1,89 @@
+body{
+    background: url("/static/images/register.jpg") 50% 0 no-repeat fixed;
+    width: 100%;
+    height: 100%;
+    padding: 100px 0 0 0; 
+    /* align-items: center;   */
+    /* justify-content: center; */
+    text-align: center;
+    }
+
+
+
+form{
+    /* border: 2px solid rgb(17, 17, 128); */
+    width: 85%;
+    height: 365px;
+    align-items: center;
+    justify-content: center;
+    display: inline-block;
+    text-align: center;
+    margin-top: 20px;
+    background-color: rgb(250, 196, 204) !important;
+   
+}
+
+.form-row{
+    /* background-color: red; */
+}
+
+div{
+    padding: 15px !important; 
+    align-items: center;
+    text-align: center;
+    /* display: inline-block; */
+
+}
+
+label{
+    float: left;
+    font-size: 0.8rem;
+}
+
+.form-control{
+    background-color: transparent !important;
+    color: white !important;
+}
+
+.btn{
+    width: 50%;
+    padding: 10px;
+    margin: 15px;
+}
+
+.text{
+    color: orange;
+    margin: 0;
+}
+
+@media all and (min-width:768px){
+    form{
+        /* border: 2px solid rgb(17, 17, 128); */
+        width: 45%;
+        height: 365px;
+        align-items: center;
+        justify-content: center;
+        display: inline-block;
+        text-align: center;
+        margin-top: 20px;
+        background-color: rgb(250, 196, 204) !important;
+       
+    }
+
+}
+
+@media all and (min-width: 1280px){
+    form{
+        /* border: 2px solid rgb(17, 17, 128); */
+        width: 25%;
+        height: 365px;
+        align-items: center;
+        justify-content: center;
+        display: inline-block;
+        text-align: center;
+        margin-top: 20px;
+        background-color: rgb(250, 196, 204) !important;
+       
+    }
+
+}
