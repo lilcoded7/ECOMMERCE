@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*e8)!*2m-s4*3+oo($@d3ar=(-waj-x(%t++3ghvf_#ww&v2(!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['ecommerce-production-dd17.up.railway.app', '127.0.0.1', 'localhost']
 
 
 
@@ -75,7 +75,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
-# CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://ecommerce-production-dd17.up.railway.app/']
 
 
 # Database
