@@ -103,7 +103,9 @@
                     <!-- logo -->
                     <div class="logo mainNavCol">
                         <a href="{% url 'home' %}">
-                            <img src="{% static 'assets/img/logo.png' %}" class="img-fluid" alt="Logo">
+                            <h3 style="display: inline-block; color: red; font-weight: bold;" class="img-fluid">JEHO</h3>
+                            <h3 style="display: inline-block; color: black; font-weight: bold;" class="img-fluid">TOP</h3>
+                            <!-- <img src="{% static 'assets/img/logo.png' %}" class="img-fluid" alt="Logo"> -->
                         </a>
                     </div>
                     <!-- logo -->
@@ -112,45 +114,34 @@
                             <div class="row">
                                 <!-- location picker -->
                                 <div class="col-lg-6 col-md-5">
-                                    <a href="#" class="delivery-add p-relative"> <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
-                                        <span class="address">JEHOTOP|Shop</span>
-                                    </a>
-                                    <div class="location-picker">
-                                        <input type="text" class="form-control" placeholder="Enter a new address">
-                                    </div>
+                                    
                                 </div>
                                 <!-- location picker -->
                                 <!-- search -->
                                 <form method="POST">
                                   {% csrf_token %}
-                                  <div class="col-lg-6 col-md-7">
-                                    <div type="submit" class="search-box padding-10">
-                                        <input type="text" class="form-control" placeholder="Search-item">
-                                        
+                                    <div class="col-lg-6 col-md-7">
+                                        <div type="submit" class="search-box padding-10">
+                                            <input type="text" class="form-control" placeholder="Search-item">
+                                            
+                                        </div>
                                     </div>
-                                </div>
+                                    
 
 
                                 </form>
-                                
-                                
-                                <!-- search -->
+                                 <!-- search -->
                             </div>
                             
                         </form>
                         
                     </div>
                     <div class="right-side fw-700 mainNavCol">
-                        <div class="catring parent-megamenu">
-                            <a  style="background-color: green;" class="btn" href="#"> 
-                              Track
-                            </a>
-                           
-                        </div>
                         <!-- mobile search -->
                         <div class="mobile-search">
-                            <a href="#" data-toggle="modal" data-target="#search-box"> <i class="fas fa-search"></i>
+                            <a href="#" data-toggle="modal" class="submit" data-target="#search-box"> <i class="fas fa-search"></i>
                             </a>
+                            <div style="display: inline-block;" type="submit">search</div>
                         </div>
                         <!-- mobile search -->
                         <!-- user account -->

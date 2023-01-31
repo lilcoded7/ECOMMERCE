@@ -12,16 +12,7 @@ from django.core.mail import EmailMessage
 from .forms import RegisterForm, loginForm, VerifyForm
 from django.contrib.auth import authenticate, login, logout
 
-
-
-
 # Create your views here.
-
-
-
-def register(request):
-    return render(request, 'store/register.html')
-
 
 def store(request):
 
@@ -33,9 +24,7 @@ def store(request):
     else:
         cookieData = cookieCart(request)
         cartItems  = cookieData['cartItems']
-        
-
-       
+          
     products = Product.objects.all()
     context = {'products':products, 'cartItems':cartItems}
     return render(request, 'store/index.html', context)

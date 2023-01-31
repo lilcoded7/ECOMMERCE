@@ -10,7 +10,7 @@ urlpatterns = [
     path('update-item/', views.updateItem, name='update-item'),
     path('process-order/', views.processOrder, name='process-order'),
     # path('', views.index, name='index'),
-    path('register/', views.register)
+    # path('register/', views.register)
     
     
 ]

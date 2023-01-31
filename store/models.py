@@ -12,20 +12,8 @@ class Customer(models.Model):
     name  = models.CharField(max_length=200)
     email = models.EmailField()
     
- 
-    # def save(self, *args, **kwargs): 
-    #     num = random.randint(0000, 9999)
-    #     self.verify_code = num 
-    #     super(Customer, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.name 
-
-
-# @receiver(post_save, sender=Customer)
-# def verifyAccount(sender, instance, created, **kwargs):
-#     if created:
-#         num = random.randint(0000, 9999)
 
 
 
@@ -45,6 +33,9 @@ class Product(models.Model):
         except:
             url = ''
         return url 
+
+
+
 
 class Order(models.Model):
     customer       = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)

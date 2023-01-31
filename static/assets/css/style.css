@@ -511,12 +511,15 @@ table {
 input[type=text]::placeholder {
     color: #000000de;
     font-size: 14px;
+    
+    
 }
 .form-control-submit {
     border: 1px solid #8f8fa1;
     border-radius: 4px;
     padding: 10px 16px;
     height: 100%;
+    border: 2px solid red;
 }
 label.custom-checkbox input {
     position: absolute;
