@@ -155,14 +155,15 @@
                         <h3 class="text-light-black header-title title">Your previous orders <span class="fs-14"><a href="#">See all past orders</a></span></h3>
                     </div>
                 </div>
-                {% for product in products %}
-                <div style="margin-bottom: 10%;" class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="product-box mb-md-20">
-                        <div style="height: 2%; width: 100%;" class="product-img">
-                            <a href="#">
-                                <img src="{{product.imageURL}}" class="img-fluid full-width" alt="product-img">
-                            </a>
-                        </div>
+                
+                <!-- <div style="margin-bottom: 3%; border: 2px solid red; height: 90%; width: 100%;" >
+                    {% for product in products %}
+                    <div style="display: inline-block; width: 15%;">
+                        <div style="height: 70%; border: 2px solid blue; width: 100%;" >
+                            <a  href="#">
+                                <img style="object-fit: cover;" src="{{product.imageURL}}" class="img-fluid full-width" alt="product-img">
+                            </a> -->
+                        <!-- </div>
                         <div class="product-caption">
                             <h6 class="product-title"><a href="#" class="text-light-black "> {{product.name}}</a></h6>
                             <p class="text-light-white">${{product.price}}</p>
@@ -170,9 +171,32 @@
                                 <a  data-product="{{product.id}}" data-action="add" class="btn-first white-btn full-width text-light-green fw-600 update-cart">Buy Now</a>
                             </div>
                         </div>
+                    </div> -->
+                    <!-- {% endfor %} -->
+                <!-- </div>  -->
+
+                {% for product in products %}
+                <div class="pro-container">
+                    <div>
+                        <img class="image" src="{{product.imageURL}}" alt="product-image">
+    
+                        <!-- <h6 class="pro-name" >{{product.name}}</h6>
+                        <hr> -->
+    
                     </div>
+                    
+    
+                    <div class="product-caption">
+                        <h6 class="product-title"><a href="#" class="text-light-black "> {{product.name}}</a></h6>
+                        <p class="text-light-white">${{product.price}}</p>
+                        <div class="product-btn">
+                            <a  data-product="{{product.id}}" data-action="add" class="btn-first white-btn full-width text-light-green fw-600 update-cart">Buy Now</a>
+                        </div>
+                    </div>
+    
                 </div>
                 {% endfor %}
+                
 
             </div>
         </div>
