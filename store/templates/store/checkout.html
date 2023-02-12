@@ -57,8 +57,8 @@
 
                                     <div id="form-wrapper">
                                         <form id="form" >
-                                            {% csrf_token %}
-                                            <div id="user-info">
+                                            
+                                            <div id="user-info"> 
                                                 <input type="text" name="username" placeholder="full name" required> 
                                                 <input class="input-form" name="email" type="text" placeholder="email" required>
                                             </div>
@@ -76,9 +76,9 @@
                                             </div><br>
                                     
                                             
-                                            <div class="form-group">
-                                                <button type="submit" class="btn-first green-btn text-custom-white full-width fw-500">Place Your Order</button>
-                                            </div>
+                                            
+                                            <button  id="form-button" onclick="submitFormData()" class="continue">Place Your Order</button>
+                                            
                                             <p class="text-center  text-light-black no-margin">By placing your order, you agree to JEHOTOP|Shop <a href="#">terms of use</a> and <a href="#">privacy agreement</a>
 
 
@@ -92,6 +92,116 @@
         </div>
     </div>
 </section>
+
+<script>
+    let shipping = "{{order.shipping}}"
+
+    let total    = '{{order.get_cart_total}}'
+
+    // if (shipping == 'False'){
+        // document.getElementById('shipping-info').innerHTML = ''
+    // }
+
+    if (user != 'AnonymousUser'){  document.getElementById('user-info').innerHTML = ''
+    }
+
+    if (shipping == 'True' && user != 'AnonymousUser'){
+        // Hide entire form if user is logged in and shipping is false
+        document.getElementById('form-wrapper').classList.add('hidden');
+        // show payment if logged in user wants to buy an item that does not required shipping 
+        // document.getElementsById('payment-info').classList.remove('hidden')
+    }
+
+
+
+    let form = document.getElementById('form')
+
+    // csrftoken = form.getElementsByTagName('input')[0].value 
+
+    // console.log('Newtoken: ', form.getElementsByTagName('input')[0].value)
+
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('form submitted...')
+        document.getElementById('form-button').classList.add('hidden')
+        // document.getElementById('payment-info').classList.remove('hidden')
+    })
+
+    // document.getElementById('make-payment').addEventListener('click', function(e){
+    //     submitFormData()
+    // })
+
+
+    function submitFormData(){
+        console.log('Payment button clicked')
+
+        let userFormData = {
+            'name' : null, 
+            'email' : null, 
+            'total' : total, 
+        }
+
+        let shippingInfo = {
+            'address' : null, 
+            'country' : null,
+            'city'    : null, 
+            'state'   : null, 
+            'zipcode' : null, 
+        }
+
+        if(shipping == 'True'){
+            shippingInfo.address = form.address.value
+            shippingInfo.country = form.country.value
+            shippingInfo.city    = form.city.value
+            shippingInfo.state   = form.state.value
+            shippingInfo.zipcode = form.zipcode.value   
+            console.log(shippingInfo.country) 
+            alert('Hello CODED how far')
+            
+        }else{
+            alert('================INVALIDE form DETAILS====================== ')
+        }
+            
+
+        if(user == 'AnonymousUser'){
+            userFormData.name = form.username.value
+            userFormData.email = form.email.value
+        }
+
+        let url = '/process-order/'
+
+        fetch(url, {
+            method : 'POST',
+            headers:{
+                'Content-Type' : 'application/json',
+                'X-CSRFToken'  : csrftoken,
+            },
+
+            body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}
+            )
+
+        })
+
+        .then((reponse) => reponse.json())
+
+        .then((data) => {
+            console.log('Success:', data);
+            alert('Transaction completed');
+ 
+            cart = {}
+            document.cookie = 'cart=' + JSON.stringify(cart) + ';domain=;path=/'
+            window.location.href= "{% url 'home' %}"
+        })
+
+
+
+    }
+
+
+
+</script>
+
+
     <!-- footer -->
 <div class="footer-top section-padding">
     <div class="container-fluid">
@@ -328,12 +438,21 @@
 
 {% endblock content %}
 
+
+
+
+
+
+
+
+
+
     <!-- paystack -->
 
-<script src="https://js.paystack.co/v1/inline.js"></script>
+<!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
 
 
-<script>
+<!-- <script>
     
     const paymentForm = document.getElementById('form');
     
@@ -368,114 +487,10 @@
 
         handler.openIframe();
     }
-</script>
+</script> -->
 
 
 
-<script>
-    let shipping = "{{order.shipping}}"
-
-    let total    = '{{order.get_cart_total}}'
-
-    // if (shipping == 'False'){
-        // document.getElementById('shipping-info').innerHTML = ''
-    // }
-
-    if (user != 'AnonymousUser'){  document.getElementById('user-info').innerHTML = ''
-    }
-
-    if (shipping == 'True' && user != 'AnonymousUser'){
-        // Hide entire form if user is logged in and shipping is false
-        document.getElementById('form-wrapper').classList.add('hidden');
-        // show payment if logged in user wants to buy an item that does not required shipping 
-        // document.getElementsById('payment-info').classList.remove('hidden')
-    }
-                                                                                                                                                                                                                    
-
-
-    let form = document.getElementById('form')
-
-    // csrftoken = form.getElementsByTagName('input')[0].value 
-
-    // console.log('Newtoken: ', form.getElementsByTagName('input')[0].value)
-
-    form.addEventListener('submit', function(e){
-        e.preventDefault()
-        console.log('form submitted...')
-        document.getElementById('form-button').classList.add('hidden')
-        // document.getElementById('payment-info').classList.remove('hidden')
-    })
-
-    // document.getElementById('make-payment').addEventListener('click', function(e){
-    //     submitFormData()
-    // })
-
-
-    function submitFormData(){
-        console.log('Payment button clicked')
-
-        let userFormData = {
-            'name' : null, 
-            'email' : null, 
-            'total' : total, 
-        }
-
-        let shippingInfo = {
-            'address' : null, 
-            'country' : null,
-            'city'    : null, 
-            'state'   : null, 
-            'zipcode' : null, 
-        }
-
-        if(shipping == 'False'){
-            shippingInfo.address = form.address.value
-            shippingInfo.country = form.country.value
-            shippingInfo.city    = form.city.value
-            shippingInfo.state   = form.state.value
-            shippingInfo.zipcode = form.zipcode.value   
-            console.log(shippingInfo.country) 
-            
-        }else{
-            alert('================INVALIDE DETAILS====================== ')
-        }
-            
-
-        if(user == 'AnonymousUser'){
-            userFormData.name = form.username.value
-            userFormData.email = form.email.value
-        }
-
-        let url = '/process-order/'
-
-        fetch(url, {
-            method : 'POST',
-            headers:{
-                'Content-Type' : 'application/json',
-                'X-CSRFToken'  : csrftoken,
-            },
-
-            body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}
-            )
-
-        })
-
-        .then((reponse) => reponse.json())
-
-        .then((data) => {
-            console.log('Success:', data);
-            alert('Transaction completed');
-
-            cart = {}
-            document.cookie = 'cart=' + JSON.stringify(cart) + ';domain=;path=/'
-            window.location.href= "{% url 'home' %}"
-        })
-
-
-
-    }
-
-</script>
 
 
 

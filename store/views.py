@@ -108,12 +108,36 @@ def processOrder(request):
     print(data, 'data000000000000000000000000000000000')
 
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user.customer 
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         
     else:
-        customer, order = guestOrder(request, data)
+        print('COOKIES:', request.COOKIES)
+        name  = data['form']['name']
+        email  = data['form']['email']
+
+        cookieData = cookieCart(request)
+        items      = cookieData['items']
+
+        customer, created = Customer.objects.get_or_create(email=email)
+        customer.name = name
+        customer.save()
+
+        order = Order.objects.create(customer=customer,complete=False)
+
+        for item in items:
+                
+            product = Product.objects.get(id=item['product']['id'])
+
+            orderItem = OrderItem.objects.create(
+                product=product,
+                order=order,
+                quantity=item['quantity']
+            )
         
+
+
+
     total   = float(data['form']['total'])
     print(total, '===============================')
     print(transaction_id, 'transaction Id')
@@ -130,7 +154,7 @@ def processOrder(request):
             customer = customer,
             order    = order,
             address  = data['shipping']['address'],
-            city  = data['shipping']['city'],
+            city  = data['shipping']['city'], 
             state  = data['shipping']['state'],
             zipcode  = data['shipping']['zipcode'],
             
@@ -138,28 +162,10 @@ def processOrder(request):
         print('===DETAILS SAVED========')
     else:
         print('-------------------Invalide credentials--------------------------')
-
     
-    email = request.user.email
-    request.session['customer_email'] = email
-    email_notifications(request)
-
     return JsonResponse('payment complete !', safe=False)
 
-def email_notifications(request):
-    email = request.session['customer_email']
-    message = 'Dear Customer , Your order has been placed successfully'
 
-    sendEmail = EmailMessage(
-        'Owusuwa Collection',
-        message,
-        settings.EMAIL_HOST_USER,
-        [email]
-    )
-    sendEmail.fail_silently = True
-    sendEmail.send()
-
-    return render(request, 'store/checkout.html')
 
 
 

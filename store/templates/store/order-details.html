@@ -99,12 +99,14 @@
                                 
                                 <div class="checkout-product">
                                     <div class="img-name-value">
-                                        <div style="border: 2px solid red; width: 20%;" class="product-img">
+                                        <div style="width: 20%;" class="product-img">
                                             <a href="#">
                                                 <img style="object-fit: cover;" src="{{item.product.imageURL}}" alt="#">
                                             </a>
                                         </div>
                                         <div class="product-value"> <span class="text-light-white">{{item.quantity}}</span>
+                                            <img data-product ="{{item.product.id}}" data-action="add" class="arrow-imge update-cart" src="{% static 'images/arrow-top.jpeg' %}" alt="">
+                                            <img data-product ="{{item.product.id}}" data-action="remove" class="arrow-imge update-cart" src="{% static 'images/arrow-down.jpeg' %}" alt="">
                                         </div>
                                         <div class="product-name"> <span><a href="#" class="text-light-white">{{item.product.name}}</a></span>
                                         </div>
@@ -146,7 +148,7 @@
                                 <h5 class="title text-light-black fw-700">Total: <span>${{order.get_cart_total|floatformat:2}}</span></h5>
                             </div>
                         </div>
-                        <a href="{% url 'checkout' %}" style="float: right; margin: 5px" class="btn btn-success">Checkout</a>
+                        <a href="{% url 'checkout' %}" style="float: right; margin: 5px; width: 100%;" class="btn btn-success">Checkout</a>
                         </div>
                     </div>
                 </div>
