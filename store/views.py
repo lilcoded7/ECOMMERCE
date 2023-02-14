@@ -6,7 +6,7 @@ import datetime
 
 from django.contrib import messages  
 from django.conf import settings 
-from .utils import cookieCart, Util, cartData
+from .utils import cookieCart, Email, cartData
 from django.conf import settings 
 from django.core.mail import EmailMessage
 from .forms import RegisterForm, loginForm, VerifyForm
@@ -14,7 +14,22 @@ from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 
+
+def search(request):
+
+    if request.method == 'POST':
+        searchitem = request.POST['search']
+        print(searchitem, '00000000000000000000000000000000000000000000000000')
+
+    return render(request, 'store/search.html')
+
+
 def store(request):
+
+    if request.method == 'POST':
+        searchitem = request.POST['search']
+        print(searchitem, '00000000000000000000000000000000000000000000000000')
+
 
     if request.user.is_authenticated:
         customer = request.user.customer 
@@ -135,9 +150,6 @@ def processOrder(request):
                 quantity=item['quantity']
             )
         
-
-
-
     total   = float(data['form']['total'])
     print(total, '===============================')
     print(transaction_id, 'transaction Id')
@@ -162,7 +174,13 @@ def processOrder(request):
         print('===DETAILS SAVED========')
     else:
         print('-------------------Invalide credentials--------------------------')
-    
+
+    # data = {
+    #     'email_subject': 'JOETOP',
+    #     'email_body'   : 'Dear Customer Your Order has been placed successfully',
+    #     'to_email'     : email,
+    # } 
+    # Email.send_email(data)
     return JsonResponse('payment complete !', safe=False)
 
 

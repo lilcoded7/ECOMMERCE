@@ -120,12 +120,12 @@
                                 <!-- search -->
                                 <form method="POST">
                                   {% csrf_token %}
-                                    <div class="col-lg-6 col-md-7">
-                                        <div type="submit" class="search-box padding-10">
-                                            <input type="text" class="form-control" placeholder="Search-item">
-                                            
-                                        </div>
-                                    </div>
+                                  <div style="border: 2px solid red; width: 30%;">
+
+                                    <input style="display: inline-block;" type="text" placeholder="search-item">
+                                    <button type="submit" style=" display: inline-block; background-color: #4f868c; padding: 10px; border-radius: 4px;">search</button>
+                                    
+                                  </div>
                                     
 
 
@@ -138,11 +138,11 @@
                     </div>
                     <div class="right-side fw-700 mainNavCol">
                         <!-- mobile search -->
-                        <div class="mobile-search">
+                        <!-- <div class="mobile-search">
                             <a href="#" data-toggle="modal" class="submit" data-target="#search-box"> <i class="fas fa-search"></i>
                             </a>
                             <div style="display: inline-block;" type="submit">search</div>
-                        </div>
+                        </div> -->
                         <!-- mobile search -->
                         <!-- user account -->
                         <div class="user-details p-relative">
@@ -196,14 +196,14 @@
      <!-- magnific popup -->
      <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
      <!-- Maps -->
-     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnd9JwZvXty-1gHZihMoFhJtCXmHfeRQg"></script> -->
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnd9JwZvXty-1gHZihMoFhJtCXmHfeRQg"></script>
      <!-- sticky sidebar -->
      <script src="{% static 'assets/js/sticksy.js' %}"></script>
      <!-- Munch Box Js -->
      <script src="{% static 'assets/js/munchbox.js' %}"></script>
 
     <!-- JavaScript Bundle with Popper -->
-   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
    
   
 </body>
