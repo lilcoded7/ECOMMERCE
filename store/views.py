@@ -25,7 +25,7 @@ def search(request):
         cookieData = cookieCart(request)
         cartItems  = cookieData['cartItems']
 
-        context = {'searach_product': searach_product, 'cartItems':cartItems}
+        context = {'search_product': search_product, 'cartItems':cartItems}
         return render(request, 'store/search.html', context)
 
     cookieData = cookieCart(request)
@@ -41,9 +41,11 @@ def store(request):
     if request.method == 'POST':
         searchitem = request.POST['search']
         
-        searach_product = Product.objects.filter(name=searchitem)
-        context = {'searach_product': searach_product}
+        search_product = Product.objects.filter(name=searchitem)
+        cookieData = cookieCart(request)
+        cartItems  = cookieData['cartItems']
 
+        context = {'search_product': search_product, 'cartItems':cartItems}
         return render(request, 'store/search.html', context)
 
 
