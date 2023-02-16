@@ -8,6 +8,21 @@
     margin-left: 0px;
 }
 
+.mini-search{
+    width: 70%;
+    float: right;
+    
+}
+
+.search-input{
+    width: 60%;
+    display: inline-block
+}
+
+.search-button{
+    
+    display: inline-block
+}
 
 #cart-total{
     display: inline-block;
@@ -268,6 +283,29 @@ input{
 
 @media all and (min-width:768px){
 
+    .form{
+        width: 30%;
+    }
+
+    .searchs-box{
+        width: 100%
+    }
+
+    .mini-search{
+        display: none;
+        
+    }
+
+    .big-search-input{
+        width: 50%;
+        display: inline-block
+    }
+
+    .search-input{
+        width: 20%;
+        display: inline-block
+    }
+
     .pro-container{
         width: 35%;
         height: 415px;
@@ -294,6 +332,15 @@ input{
 }
 
 @media all and (min-width: 1280px){
+    .searchs-box{
+        width: 40%;
+        float: right;
+    }
+
+    .mini-search{
+        display: none;
+        
+    }
 
     .pro-container{
         width: 30%;

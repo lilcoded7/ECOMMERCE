@@ -110,7 +110,7 @@
                     </div>
                     <!-- logo -->
                     <div class="main-search mainNavCol">
-                        <form class="main-search search-form full-width">
+                        <form method="POST" class="main-search search-form full-width">
                             <div class="row">
                                 <!-- location picker -->
                                 <div class="col-lg-6 col-md-5">
@@ -120,15 +120,13 @@
                                 <!-- search -->
                                 <form method="POST">
                                   {% csrf_token %}
-                                  <div style="border: 2px solid red; width: 30%;">
+                                  <div class="searchs-box">
 
-                                    <input style="display: inline-block;" type="text" placeholder="search-item">
+                                    <input class="big-search-input" style="display: inline-block;" name="search" type="text" placeholder="search-item">
                                     <button type="submit" style=" display: inline-block; background-color: #4f868c; padding: 10px; border-radius: 4px;">search</button>
                                     
                                   </div>
                                     
-
-
                                 </form>
                                  <!-- search -->
                             </div>

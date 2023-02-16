@@ -19,16 +19,32 @@ def search(request):
 
     if request.method == 'POST':
         searchitem = request.POST['search']
-        print(searchitem, '00000000000000000000000000000000000000000000000000')
+        
+        search_product = Product.objects.filter(name=searchitem)
+        
+        cookieData = cookieCart(request)
+        cartItems  = cookieData['cartItems']
 
-    return render(request, 'store/search.html')
+        context = {'searach_product': searach_product, 'cartItems':cartItems}
+        return render(request, 'store/search.html', context)
+
+    cookieData = cookieCart(request)
+    cartItems  = cookieData['cartItems']
+
+    context = {'cartItems':cartItems}
+    
+    return render(request, 'store/search.html', context)
 
 
 def store(request):
 
     if request.method == 'POST':
         searchitem = request.POST['search']
-        print(searchitem, '00000000000000000000000000000000000000000000000000')
+        
+        searach_product = Product.objects.filter(name=searchitem)
+        context = {'searach_product': searach_product}
+
+        return render(request, 'store/search.html', context)
 
 
     if request.user.is_authenticated:
