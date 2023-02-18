@@ -47,10 +47,10 @@
                                     <div class="cart-row">
                                         <img style="width: 6%; display: inline-block;" src="{{item.product.imageURL}}" alt="">
                                         <h5 style="display: inline-block; margin-left: 25px;">{{item.product.name}}</h5>
-                                        <h5 style="display: inline-block; margin-left: 15px;">${{item.product.price}}</h5>
+                                        <h5 style="display: inline-block; margin-left: 15px;">GHS {{item.product.price}}</h5>
                                         <h5 style="display: inline-block; margin-left: 15px;">x{{item.quantity}}</h5>
                                         <h5 style="display: block;">item:{{order.get_cart_items}}</h5>
-                                        <h5 name="total" style="display: block;">Total:${{order.get_cart_total|floatformat:2}}</h5>    
+                                        <h5 name="total" style="display: block;">Total:GHS {{order.get_cart_total|floatformat:2}}</h5>    
                                     </div>       
                                     {% endfor %}
 
@@ -72,7 +72,7 @@
                                         
                                                 <input type="text" name="state" placeholder="City" required>
                                                 <input class="input-form" name="city" type="text" placeholder="Town" required>
-                                                <input type="text" name="zipcode" placeholder="Zip code" required>
+                                                <input type="text" name="zipcode" placeholder="Phone number" required>
                                             </div><br>
                                     
                                             
@@ -223,7 +223,7 @@
             </div>
             <div class="col-md-2 col-sm-4 col-6">
                 <div class="icon-box"> <span class="text-light-green"><i class="flaticon-truck"></i></span>
-                    <span class="text-light-black">Free Delivery<br>with $50</span>
+                    <span class="text-light-black">Free Delivery<br>with GHS 50</span>
                 </div>
             </div>
             <div class="col-md-2 col-sm-4 col-6">
