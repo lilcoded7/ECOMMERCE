@@ -75,29 +75,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
-CSRF_TRUSTED_ORIGINS = ['https://ecommerce-production-dd17.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://joetop-shop.up.railway.app']
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE'   : 'django.db.backends.postgresql',
-#         'NAME'     : 'railway',
-#         'USER'     : 'postgres',
-#         'PASSWORD' : 'rBchi8GfKNDxRd2loUmZ',
-#         'HOST'     : 'containers-us-west-195.railway.app',
-#         'PORT'     : '6905',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE'   : 'django.db.backends.postgresql',
+        'NAME'     : 'railway',
+        'USER'     : 'postgres',
+        'PASSWORD' : 't6bOiSbSeijywpVaWAga',
+        'HOST'     : 'containers-us-west-184.railway.app',
+        'PORT'     : '5911',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
